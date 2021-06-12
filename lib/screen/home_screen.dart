@@ -19,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
     getAllTodos();
   }
 
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+
   getAllTodos() async {
     _todoService = TodoService();
     _todolist = List<Todo>();
@@ -37,8 +39,41 @@ class _HomeScreenState extends State<HomeScreen> {
 
         _todolist.add(model);
       });
-
     });
+  }
+
+  _deleteFormDialog(BuildContext context, todoId) {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (param) {
+          return AlertDialog(
+            actions: <Widget>[
+              FlatButton(
+                  color: Colors.red,
+                  onPressed: () async {
+                    var result = await _todoService.deleteTodo(todoId);
+                    if (result > 0) {
+                      Navigator.pop(context);
+                      getAllTodos();
+                      _showSuccesSnackBar(Text('Deleted Success'));
+                      print("Result : " + result);
+                    }
+                  },
+                  child: Text('Delete')),
+              FlatButton(
+                  color: Colors.green,
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancel'))
+            ],
+            title: Text('Do you want delete this item?'),
+          );
+        });
+  }
+
+  _showSuccesSnackBar(message) {
+    var _snackBar = SnackBar(content: message);
+    _globalKey.currentState.showSnackBar(_snackBar);
   }
 
   @override
@@ -51,18 +86,26 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ListView.builder(
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.only(top:8.0, left: 8.0, right: 8.0),
+            padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
             child: Card(
               elevation: 8,
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0)),
               child: ListTile(
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[Text(_todolist[index].title ?? 'No Title')],
+                  children: <Widget>[
+                    Text(_todolist[index].title ?? 'No Title'),
+                    Text(_todolist[index].todoDate ?? 'No Date'),
+                  ],
                 ),
                 subtitle: Text(_todolist[index].description ?? 'No Category'),
-                trailing: Text(_todolist[index].todoDate ?? 'No Date'),
+                trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    color: Colors.red,
+                    onPressed: () {
+                      _deleteFormDialog(context, _todolist[index].id);
+                    }),
               ),
             ),
           );

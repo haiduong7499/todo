@@ -1,5 +1,6 @@
 import 'package:do_an/screen/cate_screen.dart';
 import 'package:do_an/screen/home_screen.dart';
+import 'package:do_an/screen/todos_by_category.dart';
 import 'package:do_an/service/cate_service.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
   CateService _cateService = CateService();
 
   @override
-  initState(){
+  initState() {
     super.initState();
     getAllCate();
   }
@@ -24,8 +25,14 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
 
     categories.forEach((cate) {
       setState(() {
-        _categoryList.add(ListTile(
-          title: Text(cate['name']),
+        _categoryList.add(InkWell(
+          onTap: () => Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new TodosByCategory(category: cate['name'],))),
+          child: ListTile(
+            title: Text(cate['name']),
+          ),
         ));
       });
     });
@@ -55,8 +62,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Category'),
-              onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => CategoryScreen())),
+              onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => CategoryScreen())),
             ),
             Divider(),
             Column(
