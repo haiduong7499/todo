@@ -99,13 +99,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(_todolist[index].todoDate ?? 'No Date'),
                   ],
                 ),
-                subtitle: Text(_todolist[index].description ?? 'No Category'),
+                subtitle: Text(_todolist[index].category ?? 'No Category'),
                 trailing: IconButton(
                     icon: Icon(Icons.delete),
                     color: Colors.red,
                     onPressed: () {
                       _deleteFormDialog(context, _todolist[index].id);
                     }),
+                onTap: () => {
+                  print('onTap')
+                },
               ),
             ),
           );

@@ -2,7 +2,10 @@ import 'package:do_an/screen/cate_screen.dart';
 import 'package:do_an/screen/home_screen.dart';
 import 'package:do_an/screen/todos_by_category.dart';
 import 'package:do_an/service/cate_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:do_an/provider/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class DrawerNavigation extends StatefulWidget {
   @override
@@ -40,6 +43,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return Container(
       child: Drawer(
         child: ListView(
@@ -47,11 +51,20 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(
-                    'https://scontent-sin6-3.xx.fbcdn.net/v/t1.6435-9/184692966_572489580396420_4251421025968430501_n.jpg?_nc_cat=104&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=ft_NY9RmNEUAX9h0ug4&_nc_ht=scontent-sin6-3.xx&oh=75085e41f9ed809acca90a372e9ebe18&oe=60E278E3'),
+                    user.photoURL),
               ),
-              accountName: Text('Nguyen Dang Hai Duong'),
-              accountEmail: Text('haiduong7499@gmail.com'),
+              accountName: Text(user.displayName),
+              accountEmail: Text(user.email),
               decoration: BoxDecoration(color: Colors.blue),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log-out'),
+              onTap: () {
+                final provider =
+                Provider.of<GoogleSignInProvider>(context, listen: false);
+                provider.logout();
+              }
             ),
             ListTile(
               leading: Icon(Icons.home),
@@ -60,7 +73,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                   .push(MaterialPageRoute(builder: (context) => HomeScreen())),
             ),
             ListTile(
-              leading: Icon(Icons.home),
+              leading: Icon(Icons.category),
               title: Text('Category'),
               onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => CategoryScreen())),
@@ -68,7 +81,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             Divider(),
             Column(
               children: _categoryList,
-            )
+            ),
           ],
         ),
       ),
