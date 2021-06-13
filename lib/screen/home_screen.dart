@@ -7,7 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-final FlutterLocalNotificationsPlugin notificationsPlugin =
+FlutterLocalNotificationsPlugin notificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class HomeScreen extends StatefulWidget {
@@ -106,8 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     displayNotification('hãy hoàn thành:' + _todolist[index].title +
                         ' có những yêu cầu sau ' +
-                        _todolist[index].description,
-                        DateTime.parse(_todolist[index].todoDate));
+                        _todolist[index].description);
                     print('reng reng');
                   },
                 ),
@@ -139,12 +138,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  Future<void> displayNotification(String match, DateTime dateTime) async {
+  // , DateTime dateTime
+  // dateTime,
+  Future<void> displayNotification(String match) async {
     notificationsPlugin.zonedSchedule(
         0,
         match,
-        'Hoàn thành công việc',
-        tz.TZDateTime.from(dateTime, tz.local),
+        'Notifycation',
+        tz.TZDateTime.now(tz.local).add(Duration(seconds: 5)),
         NotificationDetails(
           android: AndroidNotificationDetails(
               'channel id', 'channel name', 'channel description'),
