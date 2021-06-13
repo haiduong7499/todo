@@ -64,12 +64,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
           return AlertDialog(
             actions: <Widget>[
               FlatButton(
-                  color: Colors.blue,
+                  color: Color(0xff38044B),
                   onPressed: () async {
                     _category.name = _categoryNameController.text;
                     _category.description = _categoryDescriptionController.text;
                     var result = await _categoryService.saveCategory(_category);
-                    if(result> 0){
+                    if (result > 0) {
                       Navigator.pop(context);
                       getAllCategories();
                       _showSuccesSnackBar(Text('Created Success'));
@@ -88,13 +88,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   TextField(
                     controller: _categoryNameController,
                     decoration: InputDecoration(
-                        hintText: 'Write a category', labelText: 'Category'),
+                      hintText: 'Write a category',
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   TextField(
                     controller: _categoryDescriptionController,
                     decoration: InputDecoration(
-                        hintText: 'Write a Description',
-                        labelText: 'Description'),
+                      hintText: 'Write a Description',
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
                   ),
                 ],
               ),
@@ -103,7 +111,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         });
   }
 
-  _deleteFormDialog(BuildContext context,categoryId) {
+  _deleteFormDialog(BuildContext context, categoryId) {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -113,9 +121,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
               FlatButton(
                   color: Colors.red,
                   onPressed: () async {
-
-                    var result = await _categoryService.deleteCategory(categoryId);
-                    if(result> 0){
+                    var result =
+                        await _categoryService.deleteCategory(categoryId);
+                    if (result > 0) {
                       Navigator.pop(context);
                       getAllCategories();
                       _showSuccesSnackBar(Text('Deleted Success'));
@@ -146,8 +154,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     _category.name = _editcategoryNameController.text;
                     _category.description =
                         _editcategoryDescriptionController.text;
-                    var result = await _categoryService.updateCategory(_category);
-                    if(result> 0){
+                    var result =
+                        await _categoryService.updateCategory(_category);
+                    if (result > 0) {
                       Navigator.pop(context);
                       getAllCategories();
                       _showSuccesSnackBar(Text('Updated Success'));
@@ -181,11 +190,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
         });
   }
 
-  _showSuccesSnackBar(message){
+  _showSuccesSnackBar(message) {
     var _snackBar = SnackBar(content: message);
     _globalKey.currentState.showSnackBar(_snackBar);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -198,10 +207,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
             Icons.arrow_back,
             color: Colors.white,
           ),
-          color: Colors.blue,
+          color: Color(0xff38044B),
           elevation: 0.0,
         ),
-        title: Text('Categories'),
+        title: Text(
+          'Categories',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: ListView.builder(
           itemCount: _categoryList.length,
@@ -238,6 +250,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         onPressed: () {
           _showFormDialog(context);
         },
+        backgroundColor: Color(0xff38044B),
         child: Icon(Icons.add),
       ),
     );

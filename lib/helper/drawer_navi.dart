@@ -51,7 +51,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               ),
               accountName: Text('Nguyen Dang Hai Duong'),
               accountEmail: Text('haiduong7499@gmail.com'),
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Color(0xff38044B).withAlpha(189)),
             ),
             ListTile(
               leading: Icon(Icons.home),

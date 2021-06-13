@@ -45,51 +45,54 @@ class _TodoScreenState extends State<TodoScreen> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2100));
 
-    if(_pickedDate !=null){
-      setState((){
+    if (_pickedDate != null) {
+      setState(() {
         _dateTime = _pickedDate;
         _todoDateController.text = DateFormat('yyyy-MM-dd').format(_pickedDate);
-
       });
     }
   }
+
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
-  _showSuccesSnackBar(message){
+  _showSuccesSnackBar(message) {
     var _snackBar = SnackBar(content: message);
     _globalKey.currentState.showSnackBar(_snackBar);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(
-        title: Text('Create Todo'),
+        title: Text('Create Todo',
+                style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(3.0),
         child: Column(
           children: <Widget>[
-            TextField(
-              controller: _todoTitleController,
-              decoration: InputDecoration(
-                  labelText: 'Title', hintText: 'Write Todo Title'),
+             SizedBox(
+              height: 10,
             ),
             TextField(
-              controller: _todoDescriptionController,
-              decoration: InputDecoration(
-                  labelText: 'Description', hintText: 'Write Todo Des'),
+              controller: _todoTitleController,
+              decoration: InputDecoration(hintText: 'Title'),
+            ),
+            
+            SizedBox(
+              height: 10,
             ),
             TextField(
               controller: _todoDateController,
+              onTap: () {
+                _selectedTodoDate(context);
+              },
               decoration: InputDecoration(
-                  labelText: 'Date',
-                  hintText: 'Pick a Date',
-                  prefix: InkWell(
-                    onTap: () {
-                      _selectedTodoDate(context);
-                    },
-                    child: Icon(Icons.calendar_today),
-                  )),
+                  prefixIcon: Icon(Icons.calendar_today_rounded)),
+            ),
+            SizedBox(
+              height: 10,
             ),
             DropdownButtonFormField(
               value: _selectValue,
@@ -100,6 +103,19 @@ class _TodoScreenState extends State<TodoScreen> {
                 });
               },
               hint: Text('Category'),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 100.0,
+              child: TextField(
+                maxLines: 5,
+                  controller: _todoDescriptionController,
+                  decoration: InputDecoration(
+                    hintText: 'Description',
+                    ),
+            ),
             ),
             SizedBox(
               height: 20,
@@ -115,15 +131,12 @@ class _TodoScreenState extends State<TodoScreen> {
 
                 var _todoService = TodoService();
                 var result = await _todoService.saveTodo(todoObject);
-                if(result>0){
-
+                if (result > 0) {
                   _showSuccesSnackBar(Text('Created Todo Item Successed'));
                   print(result);
                 }
-
-
               },
-              color: Colors.blue,
+              color: Color(0xff38044B),
               child: Text(
                 'Save',
                 style: TextStyle(color: Colors.white),
