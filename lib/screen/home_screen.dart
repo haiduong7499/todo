@@ -3,6 +3,12 @@ import 'package:do_an/models/todo.dart';
 import 'package:do_an/screen/todo_screen.dart';
 import 'package:do_an/service/todo_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+final FlutterLocalNotificationsPlugin notificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,6 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   initState() {
+    initializeSetting();
+    tz.initializeTimeZones();
     super.initState();
     getAllTodos();
   }
@@ -92,6 +100,17 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0)),
               child: ListTile(
+                leading: IconButton(
+                  icon: Icon(Icons.notifications),
+                  color: Colors.blue,
+                  onPressed: () {
+                    displayNotification('hãy hoàn thành:' + _todolist[index].title +
+                        ' có những yêu cầu sau ' +
+                        _todolist[index].description,
+                        DateTime.parse(_todolist[index].todoDate));
+                    print('reng reng');
+                  },
+                ),
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -106,9 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       _deleteFormDialog(context, _todolist[index].id);
                     }),
-                onTap: () => {
-                  print('onTap')
-                },
+                onTap: () => {print('onTap'), print(_todolist[index].todoDate)},
               ),
             ),
           );
@@ -122,4 +139,24 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  Future<void> displayNotification(String match, DateTime dateTime) async {
+    notificationsPlugin.zonedSchedule(
+        0,
+        match,
+        'Hoàn thành công việc',
+        tz.TZDateTime.from(dateTime, tz.local),
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+              'channel id', 'channel name', 'channel description'),
+        ),
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true);
+  }
+}
+
+void initializeSetting() async {
+  var initializeAndroid = AndroidInitializationSettings('my_logo');
+  var initializeSetting = InitializationSettings(android: initializeAndroid);
+  await notificationsPlugin.initialize(initializeSetting);
 }

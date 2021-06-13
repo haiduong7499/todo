@@ -37,6 +37,8 @@ dependencies:
   font_awesome_flutter: ^8.10.0
   # state management
   provider: ^4.3.2+2
+  #notification
+  flutter_local_notifications: ^4.0.0+4
 dev_dependencies:
   flutter_test:
     sdk: flutter
