@@ -1,3 +1,4 @@
+import 'package:do_an/helper/drawer_navi.dart';
 import 'package:do_an/models/category.dart';
 import 'package:do_an/service/cate_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -193,12 +194,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
       appBar: AppBar(
         leading: RaisedButton(
           onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => HomeScreen())),
+              .push(MaterialPageRoute(builder: (context) => DrawerNavigation())),
           child: Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
-          color: Colors.blue,
           elevation: 0.0,
         ),
         title: Text('Categories'),

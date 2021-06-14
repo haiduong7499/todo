@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   TextField(
                     controller: _editTodoNameController,
                     decoration: InputDecoration(
-                        hintText: 'Write a category', labelText: 'Category'),
+                        hintText: 'Write a Title', labelText: 'Title'),
                   ),
                   TextField(
                     controller: _editTodoDescriptionController,
