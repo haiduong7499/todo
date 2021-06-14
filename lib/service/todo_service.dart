@@ -24,4 +24,12 @@ class TodoService {
     return await _repository.ReadDataByColumnName(
         'todos', 'category', category);
   }
+
+  readTodobyId(todoId) async {
+    return await _repository.readDataById('todos', todoId);
+  }
+
+  updateCategory(Todo todo) async{
+    return await _repository.updateData('todos',todo.todoMap());
+  }
 }
