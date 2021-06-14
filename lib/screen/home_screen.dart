@@ -100,18 +100,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     todayStyle: TextStyle(
                         color: Color(0xFFF80303), fontWeight: FontWeight.bold)),
                 daysOfWeekStyle: DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(
-                      color: Color(0xff38044B),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                  weekendStyle: TextStyle(
-                      color: Color(0xffC9B5D4),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                      dowTextBuilder: (date, locale){
-                        return DateFormat.E(locale).format(date).substring(0,1);
-                      }
-                ),
+                    weekdayStyle: TextStyle(
+                        color: Color(0xff38044B),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                    weekendStyle: TextStyle(
+                        color: Color(0xffC9B5D4),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                    dowTextBuilder: (date, locale) {
+                      return DateFormat.E(locale).format(date).substring(0, 1);
+                    }),
                 headerStyle: HeaderStyle(
                     formatButtonVisible: false,
                     titleTextStyle: TextStyle(
@@ -152,26 +151,44 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      taskList(
-                          "Task 1",
-                          "Description",
-                          CupertinoIcons.check_mark_circled_solid,
-                          Color(0xffF9F400)),
-                      taskList(
-                          "Task 2",
-                          "Description",
-                          CupertinoIcons.circle,
-                          Color(0xFFEAE9EB)),
-                      taskList(
-                          "Task 1",
-                          "Description",
-                          CupertinoIcons.circle,
-                          Color(0xFFEAE9EB)),
-                      taskList(
-                          "Task 1",
-                          "Description",
-                          CupertinoIcons.check_mark_circled_solid,
-                          Color(0xffF9F400)),
+                      for (var i = 0; i < _todolist.length; i++)
+                        Container(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Row(children: <Widget>[
+                            IconButton(
+                                icon: Icon(CupertinoIcons.check_mark_circled_solid),
+                                color: Color(0xffF9F400),
+                                onPressed: () {
+                                  _deleteFormDialog(context, _todolist[i].id);
+                                }),
+                            Container(
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    _todolist[i].title ?? 'No Title',
+                                    style: (TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff38044B))),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    _todolist[i].description ?? 'No Category',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal),
+                                  )
+                                ],
+                              ),
+                            )
+                          ]),
+                        ),
                     ],
                   ),
                   Positioned(
