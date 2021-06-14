@@ -4,8 +4,17 @@ import 'package:do_an/screen/todo_screen.dart';
 import 'package:do_an/service/todo_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+=======
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+FlutterLocalNotificationsPlugin notificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+>>>>>>> 0bc0a6d ('add-notification')
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -76,183 +85,183 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xff38044B),
-      ),
-      drawer: DrawerNavigation(),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 30,
-              ),
-              TableCalendar(
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                calendarStyle: CalendarStyle(
-                    weekdayStyle: dayStyle(FontWeight.bold),
-                    weekendStyle: TextStyle(
-                        color: Color(0xffC9B5D4), fontWeight: FontWeight.bold),
-                    selectedColor: Color(0xff38044B),
-                    todayColor: Colors.white.withAlpha(0),
-                    todayStyle: TextStyle(
-                        color: Color(0xFFF80303), fontWeight: FontWeight.bold)),
-                daysOfWeekStyle: DaysOfWeekStyle(
-                    weekdayStyle: TextStyle(
-                        color: Color(0xff38044B),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                    weekendStyle: TextStyle(
-                        color: Color(0xffC9B5D4),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                    dowTextBuilder: (date, locale) {
-                      return DateFormat.E(locale).format(date).substring(0, 1);
-                    }),
-                headerStyle: HeaderStyle(
-                    formatButtonVisible: false,
-                    titleTextStyle: TextStyle(
-                        color: Color(0xff79378B),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                    leftChevronIcon: Icon(
-                      Icons.chevron_left,
-                      color: Color(0xff79378B),
-                    ),
-                    rightChevronIcon:
-                        Icon(Icons.chevron_right, color: Color(0xff79378B))),
-                calendarController: _controller,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 30),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.55,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular((50)),
-                        topRight: Radius.circular((50))),
-                    color: Color(0xffC9B5D4)),
-                child: Stack(children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 50),
-                        child: Text(
-                          "Today",
-                          style: TextStyle(
-                              color: Color(0xff38044B),
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      for (var i = 0; i < _todolist.length; i++)
-                        Container(
-                          padding: EdgeInsets.only(top: 20),
-                          child: Row(children: <Widget>[
-                            IconButton(
-                                icon: Icon(CupertinoIcons.check_mark_circled_solid),
-                                color: Color(0xffF9F400),
-                                onPressed: () {
-                                  _deleteFormDialog(context, _todolist[i].id);
-                                }),
-                            Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    _todolist[i].title ?? 'No Title',
-                                    style: (TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xff38044B))),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    _todolist[i].description ?? 'No Category',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  )
-                                ],
-                              ),
-                            )
-                          ]),
-                        ),
-                    ],
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    height: 300,
-                    width: MediaQuery.of(context).size.width,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: FractionalOffset.topCenter,
-                              end: FractionalOffset.bottomCenter,
-                              colors: [
-                            Color(0xffC9B5D4).withAlpha(0),
-                            Color(0xffC9B5D4)
-                          ],
-                              stops: [
-                            0.0,
-                            1.0
-                          ])),
-                    ),
-                  ),
-                ]),
-              )
-            ],
-          ),
-        ),
-      ),
-      // body: ListView.builder(
-      //   itemBuilder: (context, index) {
-      //     return Padding(
-      //       padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-      //       child: Card(
-      //         elevation: 8,
-      //         shape: RoundedRectangleBorder(
-      //             borderRadius: BorderRadius.circular(0)),
-      //         child: ListTile(
-      //           title: Row(
-      //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //             children: <Widget>[
-      //               Text(_todolist[index].title ?? 'No Title'),
-      //               Text(_todolist[index].todoDate ?? 'No Date'),
-      //             ],
-      //           ),
-      //           subtitle: Text(_todolist[index].description ?? 'No Category'),
-      //           trailing: IconButton(
-      //               icon: Icon(Icons.delete),
-      //               color: Colors.red,
-      //               onPressed: () {
-      //                 _deleteFormDialog(context, _todolist[index].id);
-      //               }),
-      //         ),
-      //       ),
-      //     );
-      //   },
-      //   itemCount: _todolist.length,
-      // ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => TodoScreen())),
-        backgroundColor: Color(0xff38044B),
-        child: Icon(Icons.add),
-      ),
-    );
-  }
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       backgroundColor: Color(0xff38044B),
+  //     ),
+  //     drawer: DrawerNavigation(),
+  //     body: Container(
+  //       child: SingleChildScrollView(
+  //         child: Column(
+  //           children: <Widget>[
+  //             SizedBox(
+  //               height: 30,
+  //             ),
+  //             TableCalendar(
+  //               startingDayOfWeek: StartingDayOfWeek.monday,
+  //               calendarStyle: CalendarStyle(
+  //                   weekdayStyle: dayStyle(FontWeight.bold),
+  //                   weekendStyle: TextStyle(
+  //                       color: Color(0xffC9B5D4), fontWeight: FontWeight.bold),
+  //                   selectedColor: Color(0xff38044B),
+  //                   todayColor: Colors.white.withAlpha(0),
+  //                   todayStyle: TextStyle(
+  //                       color: Color(0xFFF80303), fontWeight: FontWeight.bold)),
+  //               daysOfWeekStyle: DaysOfWeekStyle(
+  //                   weekdayStyle: TextStyle(
+  //                       color: Color(0xff38044B),
+  //                       fontWeight: FontWeight.bold,
+  //                       fontSize: 16),
+  //                   weekendStyle: TextStyle(
+  //                       color: Color(0xffC9B5D4),
+  //                       fontWeight: FontWeight.bold,
+  //                       fontSize: 16),
+  //                   dowTextBuilder: (date, locale) {
+  //                     return DateFormat.E(locale).format(date).substring(0, 1);
+  //                   }),
+  //               headerStyle: HeaderStyle(
+  //                   formatButtonVisible: false,
+  //                   titleTextStyle: TextStyle(
+  //                       color: Color(0xff79378B),
+  //                       fontSize: 20,
+  //                       fontWeight: FontWeight.bold),
+  //                   leftChevronIcon: Icon(
+  //                     Icons.chevron_left,
+  //                     color: Color(0xff79378B),
+  //                   ),
+  //                   rightChevronIcon:
+  //                       Icon(Icons.chevron_right, color: Color(0xff79378B))),
+  //               calendarController: _controller,
+  //             ),
+  //             SizedBox(
+  //               height: 20,
+  //             ),
+  //             Container(
+  //               padding: EdgeInsets.only(left: 30),
+  //               width: MediaQuery.of(context).size.width,
+  //               height: MediaQuery.of(context).size.height * 0.55,
+  //               decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.only(
+  //                       topLeft: Radius.circular((50)),
+  //                       topRight: Radius.circular((50))),
+  //                   color: Color(0xffC9B5D4)),
+  //               child: Stack(children: <Widget>[
+  //                 Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: <Widget>[
+  //                     Padding(
+  //                       padding: EdgeInsets.only(top: 50),
+  //                       child: Text(
+  //                         "Today",
+  //                         style: TextStyle(
+  //                             color: Color(0xff38044B),
+  //                             fontSize: 30,
+  //                             fontWeight: FontWeight.bold),
+  //                       ),
+  //                     ),
+  //                     for (var i = 0; i < _todolist.length; i++)
+  //                       Container(
+  //                         padding: EdgeInsets.only(top: 20),
+  //                         child: Row(children: <Widget>[
+  //                           IconButton(
+  //                               icon: Icon(CupertinoIcons.check_mark_circled_solid),
+  //                               color: Color(0xffF9F400),
+  //                               onPressed: () {
+  //                                 _deleteFormDialog(context, _todolist[i].id);
+  //                               }),
+  //                           Container(
+  //                             padding: EdgeInsets.only(left: 10, right: 10),
+  //                             width: MediaQuery.of(context).size.width * 0.8,
+  //                             child: Column(
+  //                               crossAxisAlignment: CrossAxisAlignment.start,
+  //                               children: <Widget>[
+  //                                 Text(
+  //                                   _todolist[i].title ?? 'No Title',
+  //                                   style: (TextStyle(
+  //                                       fontSize: 20,
+  //                                       fontWeight: FontWeight.bold,
+  //                                       color: Color(0xff38044B))),
+  //                                 ),
+  //                                 SizedBox(
+  //                                   height: 10,
+  //                                 ),
+  //                                 Text(
+  //                                   _todolist[i].description ?? 'No Category',
+  //                                   style: TextStyle(
+  //                                       fontSize: 15,
+  //                                       color: Colors.white,
+  //                                       fontWeight: FontWeight.normal),
+  //                                 )
+  //                               ],
+  //                             ),
+  //                           )
+  //                         ]),
+  //                       ),
+  //                   ],
+  //                 ),
+  //                 Positioned(
+  //                   bottom: 0,
+  //                   height: 300,
+  //                   width: MediaQuery.of(context).size.width,
+  //                   child: Container(
+  //                     decoration: BoxDecoration(
+  //                         gradient: LinearGradient(
+  //                             begin: FractionalOffset.topCenter,
+  //                             end: FractionalOffset.bottomCenter,
+  //                             colors: [
+  //                           Color(0xffC9B5D4).withAlpha(0),
+  //                           Color(0xffC9B5D4)
+  //                         ],
+  //                             stops: [
+  //                           0.0,
+  //                           1.0
+  //                         ])),
+  //                   ),
+  //                 ),
+  //               ]),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //     // body: ListView.builder(
+  //     //   itemBuilder: (context, index) {
+  //     //     return Padding(
+  //     //       padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+  //     //       child: Card(
+  //     //         elevation: 8,
+  //     //         shape: RoundedRectangleBorder(
+  //     //             borderRadius: BorderRadius.circular(0)),
+  //     //         child: ListTile(
+  //     //           title: Row(
+  //     //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //     //             children: <Widget>[
+  //     //               Text(_todolist[index].title ?? 'No Title'),
+  //     //               Text(_todolist[index].todoDate ?? 'No Date'),
+  //     //             ],
+  //     //           ),
+  //     //           subtitle: Text(_todolist[index].description ?? 'No Category'),
+  //     //           trailing: IconButton(
+  //     //               icon: Icon(Icons.delete),
+  //     //               color: Colors.red,
+  //     //               onPressed: () {
+  //     //                 _deleteFormDialog(context, _todolist[index].id);
+  //     //               }),
+  //     //         ),
+  //     //       ),
+  //     //     );
+  //     //   },
+  //     //   itemCount: _todolist.length,
+  //     // ),
+  //     floatingActionButton: FloatingActionButton(
+  //       onPressed: () => Navigator.of(context)
+  //           .push(MaterialPageRoute(builder: (context) => TodoScreen())),
+  //       backgroundColor: Color(0xff38044B),
+  //       child: Icon(Icons.add),
+  //     ),
+  //   );
+  // }
 
   getAllTodos() async {
     _todoService = TodoService();
@@ -308,4 +317,81 @@ class _HomeScreenState extends State<HomeScreen> {
     var _snackBar = SnackBar(content: message);
     _globalKey.currentState.showSnackBar(_snackBar);
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('To Do App'),
+      ),
+      drawer: DrawerNavigation(),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0)),
+              child: ListTile(
+                leading: IconButton(
+                  icon: Icon(Icons.notifications),
+                  color: Colors.blue,
+                  onPressed: () {
+                    displayNotification('hãy hoàn thành:' + _todolist[index].title +
+                        ' có những yêu cầu sau ' +
+                        _todolist[index].description);
+                    print('reng reng');
+                  },
+                ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(_todolist[index].title ?? 'No Title'),
+                    Text(_todolist[index].todoDate ?? 'No Date'),
+                  ],
+                ),
+                subtitle: Text(_todolist[index].category ?? 'No Category'),
+                trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    color: Colors.red,
+                    onPressed: () {
+                      _deleteFormDialog(context, _todolist[index].id);
+                    }),
+                onTap: () => {print('onTap'), print(_todolist[index].todoDate)},
+              ),
+            ),
+          );
+        },
+        itemCount: _todolist.length,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => TodoScreen())),
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+  // , DateTime dateTime
+  // dateTime,
+  Future<void> displayNotification(String match) async {
+    notificationsPlugin.zonedSchedule(
+        0,
+        match,
+        'Notifycation',
+        tz.TZDateTime.now(tz.local).add(Duration(seconds: 5)),
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+              'channel id', 'channel name', 'channel description'),
+        ),
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true);
+  }
+}
+
+void initializeSetting() async {
+  var initializeAndroid = AndroidInitializationSettings('my_logo');
+  var initializeSetting = InitializationSettings(android: initializeAndroid);
+  await notificationsPlugin.initialize(initializeSetting);
 }
